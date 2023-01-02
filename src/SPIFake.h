@@ -1,30 +1,33 @@
 #pragma once
 
 #include "ArduinoFake.h"
-#include "FunctionFake.h"
 #include "arduino/SPI.h"
 
-struct SPIClassFake
+struct SPIBusFake
 {
-    virtual void begin() = 0;
-    virtual void beginTransaction(SPISettings settings) = 0;
     virtual uint8_t transfer(uint8_t data) = 0;
+    virtual void transfer(void *buf, size_t count) = 0;
+
+    virtual void beginTransaction(SPISettings settings) = 0;
     virtual void endTransaction(void) = 0;
+
+    virtual void begin() = 0;
+    virtual void end() = 0;
 };
 
-class SPIClassFakeProxy : public SPIClass
+class SPIBusFakeProxy : public SPIClass
 {
-    private:
-        SPIClassFake *spiClassFake;
+private:
+    SPIBusFake *spiFake;
 
-    public:
-        SPIClassFakeProxy(SPIClassFake *fake)
-        {
-            spiClassFake = fake;
-        }
+public:
+    SPIBusFakeProxy(SPIBusFake *fake)
+    {
+        spiFake = fake;
+    }
 
-        SPIClassFake *getSPIClassFake()
-        {
-            return spiClassFake;
-        }
+    SPIBusFake *getSPIFake()
+    {
+        return spiFake;
+    }
 };

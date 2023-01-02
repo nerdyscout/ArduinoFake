@@ -34,7 +34,7 @@
 // A mismatch occurs if other libraries fail to use SPI.endTransaction() for
 // each SPI.beginTransaction().  Connect an LED to this pin.  The LED will turn
 // on if any mismatch is ever detected.
-//#define SPI_TRANSACTION_MISMATCH_LED 5
+// #define SPI_TRANSACTION_MISMATCH_LED 5
 
 #ifndef LSBFIRST
 #define LSBFIRST 0
@@ -56,34 +56,38 @@
 #define SPI_MODE2 0x08
 #define SPI_MODE3 0x0C
 
-#define SPI_MODE_MASK 0x0C  // CPOL = bit 3, CPHA = bit 2 on SPCR
-#define SPI_CLOCK_MASK 0x03  // SPR1 = bit 1, SPR0 = bit 0 on SPCR
-#define SPI_2XCLOCK_MASK 0x01  // SPI2X = bit 0 on SPSR
+#define SPI_MODE_MASK 0x0C    // CPOL = bit 3, CPHA = bit 2 on SPCR
+#define SPI_CLOCK_MASK 0x03   // SPR1 = bit 1, SPR0 = bit 0 on SPCR
+#define SPI_2XCLOCK_MASK 0x01 // SPI2X = bit 0 on SPSR
 
 // define SPI_AVR_EIMSK for AVR boards with external interrupt pins
 #if defined(EIMSK)
-  #define SPI_AVR_EIMSK  EIMSK
+#define SPI_AVR_EIMSK EIMSK
 #elif defined(GICR)
-  #define SPI_AVR_EIMSK  GICR
+#define SPI_AVR_EIMSK GICR
 #elif defined(GIMSK)
-  #define SPI_AVR_EIMSK  GIMSK
+#define SPI_AVR_EIMSK GIMSK
 #endif
 
-class SPISettings {
+class SPISettings
+{
 public:
-  SPISettings(uint32_t clock, uint8_t bitOrder, uint8_t dataMode) {
+  SPISettings(uint32_t clock, uint8_t bitOrder, uint8_t dataMode)
+  {
   }
-  SPISettings() {
+  SPISettings()
+  {
     SPISettings(4000000, MSBFIRST, SPI_MODE0);
   }
   friend class SPIClass;
 };
 
-
-class SPIClass {
+class SPIClass
+{
 public:
   // Initialize the SPI library
   static void begin();
+  static void end();
 
   // Before using SPI.transfer() or asserting chip select pins,
   // this function is used to gain exclusive access to the SPI bus
@@ -92,6 +96,7 @@ public:
 
   // Write to the SPI bus (MOSI pin) and also receive (MISO pin)
   static uint8_t transfer(uint8_t data);
+  static void transfer(void *buf, size_t count);
 
   // After performing a group of transfers and releasing the chip select
   // signal, this function allows others to access the SPI bus
@@ -99,3 +104,5 @@ public:
 
 private:
 };
+
+extern SPIClass SPI;
