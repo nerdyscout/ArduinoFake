@@ -1,0 +1,5 @@
+BasedOnStyle: Google
+Language: Cpp
+Standard: c++11
+UseTab: Never
+IndentWidth: 2
