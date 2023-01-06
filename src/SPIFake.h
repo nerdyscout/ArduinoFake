@@ -3,7 +3,7 @@
 #include "ArduinoFake.h"
 #include "arduino/SPI.h"
 
-struct SPIClassFake {
+struct SPIFake {
   virtual uint8_t transfer(uint8_t data) = 0;
   virtual void transfer(void *buf, size_t count) = 0;
 
@@ -14,12 +14,12 @@ struct SPIClassFake {
   virtual void end() = 0;
 };
 
-class SPIClassFakeProxy : public SPIClass {
+class SPIFakeProxy : public SPIClass {
  private:
-  SPIClassFake *spiFake;
+  SPIFake *spiFake;
 
  public:
-  SPIClassFakeProxy(SPIClassFake *fake) { spiFake = fake; }
+  SPIFakeProxy(SPIFake *fake) { spiFake = fake; }
 
-  SPIClassFake *getSPIFake() { return spiFake; }
+  SPIFake *getSPIFake() { return spiFake; }
 };

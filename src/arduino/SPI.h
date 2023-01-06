@@ -79,21 +79,23 @@ class SPISettings {
 class SPIClass {
  public:
   // Initialize the SPI library
-  static void begin();
-  static void end();
+  virtual void begin();
+  virtual void end();
 
   // Before using SPI.transfer() or asserting chip select pins,
   // this function is used to gain exclusive access to the SPI bus
   // and configure the correct settings.
-  static void beginTransaction(SPISettings settings);
+  virtual void beginTransaction(SPISettings settings);
 
   // Write to the SPI bus (MOSI pin) and also receive (MISO pin)
-  static uint8_t transfer(uint8_t data);
-  static void transfer(void *buf, size_t count);
+  virtual uint8_t transfer(uint8_t data);
+  virtual void transfer(void *buf, size_t count);
 
   // After performing a group of transfers and releasing the chip select
   // signal, this function allows others to access the SPI bus
-  static void endTransaction(void);
+  virtual void endTransaction(void);
+
+  //  virtual ~SPIClass();
 
  private:
 };

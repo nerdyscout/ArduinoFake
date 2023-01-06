@@ -1,26 +1,24 @@
+#include "ArduinoFake.h"
 #include "SPIFake.h"
 
-#include "Arduino.h"
-#include "ArduinoFake.h"
+void SPIClass::begin() { ArduinoFakeInstance(SPI)->begin(); };
 
-void SPIClass::begin() { ArduinoFakeInstance(SPIClass)->begin(); };
-
-void SPIClass::end() { ArduinoFakeInstance(SPIClass)->end(); };
+void SPIClass::end() { ArduinoFakeInstance(SPI)->end(); };
 
 void SPIClass::beginTransaction(SPISettings settings) {
-  ArduinoFakeInstance(SPIClass)->beginTransaction(settings);
+  ArduinoFakeInstance(SPI)->beginTransaction(settings);
 };
 
 void SPIClass::endTransaction(void) {
-  ArduinoFakeInstance(SPIClass)->endTransaction();
+  ArduinoFakeInstance(SPI)->endTransaction();
 };
 
 uint8_t SPIClass::transfer(uint8_t data) {
-  return ArduinoFakeInstance(SPIClass)->transfer(data);
+  return ArduinoFakeInstance(SPI)->transfer(data);
 };
 
 void SPIClass::transfer(void *buf, size_t count) {
-  return ArduinoFakeInstance(SPIClass)->transfer(buf, count);
+  return ArduinoFakeInstance(SPI)->transfer(buf, count);
 };
 
-SPIClass SPI = SPIClassFakeProxy(ArduinoFakeInstance(SPIClass));
+SPIClass SPI = SPIFakeProxy(ArduinoFakeInstance(SPI));
