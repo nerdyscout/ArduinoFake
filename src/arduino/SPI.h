@@ -12,9 +12,9 @@
  */
 
 #pragma once
+#include <stdint.h>
 #include <stdlib.h>
 #include <sys/types.h>
-#include <stdint.h>
 
 // SPI_HAS_TRANSACTION means SPI has beginTransaction(), endTransaction(),
 // usingInterrupt(), and SPISetting(clock, bitOrder, dataMode)
@@ -56,9 +56,9 @@
 #define SPI_MODE2 0x08
 #define SPI_MODE3 0x0C
 
-#define SPI_MODE_MASK 0x0C    // CPOL = bit 3, CPHA = bit 2 on SPCR
-#define SPI_CLOCK_MASK 0x03   // SPR1 = bit 1, SPR0 = bit 0 on SPCR
-#define SPI_2XCLOCK_MASK 0x01 // SPI2X = bit 0 on SPSR
+#define SPI_MODE_MASK 0x0C     // CPOL = bit 3, CPHA = bit 2 on SPCR
+#define SPI_CLOCK_MASK 0x03    // SPR1 = bit 1, SPR0 = bit 0 on SPCR
+#define SPI_2XCLOCK_MASK 0x01  // SPI2X = bit 0 on SPSR
 
 // define SPI_AVR_EIMSK for AVR boards with external interrupt pins
 #if defined(EIMSK)
@@ -69,22 +69,15 @@
 #define SPI_AVR_EIMSK GIMSK
 #endif
 
-class SPISettings
-{
-public:
-  SPISettings(uint32_t clock, uint8_t bitOrder, uint8_t dataMode)
-  {
-  }
-  SPISettings()
-  {
-    SPISettings(4000000, MSBFIRST, SPI_MODE0);
-  }
+class SPISettings {
+ public:
+  SPISettings(uint32_t clock, uint8_t bitOrder, uint8_t dataMode) {}
+  SPISettings() { SPISettings(4000000, MSBFIRST, SPI_MODE0); }
   friend class SPIClass;
 };
 
-class SPIClass
-{
-public:
+class SPIClass {
+ public:
   // Initialize the SPI library
   static void begin();
   static void end();
@@ -102,7 +95,7 @@ public:
   // signal, this function allows others to access the SPI bus
   static void endTransaction(void);
 
-private:
+ private:
 };
 
 extern SPIClass SPI;

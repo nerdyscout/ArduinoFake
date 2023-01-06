@@ -37,7 +37,7 @@
 #define _ArduinoFakeGetStream() _ArduinoFakeGetMock(Stream)
 #define _ArduinoFakeGetClient() _ArduinoFakeGetMock(Client)
 #define _ArduinoFakeGetPrint() _ArduinoFakeGetMock(Print)
-#define _ArduinoFakeGetSPIBus() _ArduinoFakeGetMock(SPIBus)
+#define _ArduinoFakeGetSPIClass() _ArduinoFakeGetMock(SPIClass)
 
 #define _ArduinoFakeInstanceGetter1(mock)               \
   mock##Fake *mock() {                                  \
@@ -65,7 +65,7 @@ struct ArduinoFakeMocks {
   fakeit::Mock<StreamFake> Stream;
   fakeit::Mock<ClientFake> Client;
   fakeit::Mock<PrintFake> Print;
-  fakeit::Mock<SPIBusFake> SPIBus;
+  fakeit::Mock<SPIClassFake> SPIClass;
 };
 
 struct ArduinoFakeInstances {
@@ -75,7 +75,7 @@ struct ArduinoFakeInstances {
   StreamFake *Stream;
   ClientFake *Client;
   PrintFake *Print;
-  SPIBusFake *SPIBus;
+  SPIClassFake *SPIClass;
 };
 
 class ArduinoFakeContext {
@@ -90,14 +90,14 @@ class ArduinoFakeContext {
   _ArduinoFakeInstanceGetter1(Stream);
   _ArduinoFakeInstanceGetter1(Client);
   _ArduinoFakeInstanceGetter1(Print);
-  _ArduinoFakeInstanceGetter1(SPIBus);
+  _ArduinoFakeInstanceGetter1(SPIClass);
 
   _ArduinoFakeInstanceGetter2(Serial, Serial_);
   _ArduinoFakeInstanceGetter2(Wire, TwoWire);
   _ArduinoFakeInstanceGetter2(Stream, Stream);
   _ArduinoFakeInstanceGetter2(Client, Client);
   _ArduinoFakeInstanceGetter2(Print, Print);
-  //  _ArduinoFakeInstanceGetter2(SPIBus, SPIBus);
+  _ArduinoFakeInstanceGetter2(SPIClass, SPIClass);
 
   ArduinoFakeContext() { this->reset(); }
 
@@ -110,11 +110,11 @@ class ArduinoFakeContext {
     this->Mocks->Wire.Reset();
     this->Mocks->Client.Reset();
     this->Mocks->Print.Reset();
-    this->Mocks->SPIBus.Reset();
+    this->Mocks->SPIClass.Reset();
 
     Mapping[&::Serial] = this->Serial();
     Mapping[&::Wire] = this->Wire();
-    Mapping[&::SPI] = this->SPIBus();
+    Mapping[&::SPI] = this->SPIClass();
   }
 };
 
